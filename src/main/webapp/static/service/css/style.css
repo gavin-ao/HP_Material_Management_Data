@@ -68,7 +68,7 @@
 
 .contain_main {
     width: 100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 40px);
     padding: 20px 20px;
     background-color: #EEF4F9
 }
@@ -95,7 +95,9 @@
     background-color: #fff;
     padding: 20px;
 }
-
+.contain_main_title{
+    margin-bottom: 10px;
+}
 .contain_main_title .title {
     font-size: 16px;
     color: #666;
@@ -143,7 +145,7 @@
 }
 
 .contain_main_chart {
-    height: 350px;
+    height: 450px;
 }
 
 .contain_main_chart > div {
@@ -154,15 +156,20 @@
     /*width: 100%;*/
 }
 
-.contain_main_chart > div div {
+.contain_main_chart > div > div {
     height:calc( 100% - 50px);
     width: 100%;
     border: 1px solid #ccc;
 }
 
 .contain_main_chart .contain_main_line {
-    width: 64%;
+    width: 100%;
+    /*float: left;*/
 }
+/*.contain_main_chart .contain_main_lines {*/
+    /*width: 49%;*/
+    /*float: right;*/
+/*}*/
 
 .contain_main_chart .contain_main_pie {
     width: 35%;
