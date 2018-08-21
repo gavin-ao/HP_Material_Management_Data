@@ -155,16 +155,16 @@ public class WechatProductController {
                     }
                     //如果第一个预配置的配件信息不为空，就根据配件分类替换该配件，并且如果预配置的配件信息比标准多，就将多余的配件信息填充展示
                     if(prePartsList != null && prePartsList.size() > 0){
-                        Map<String, PartsEntity> prePartsMap = prePartsList.stream().collect(Collectors.toMap(o -> o.getCatgId(), o -> o));
+                        Map<String, PrePartsVO> prePartsMap = prePartsList.stream().collect(Collectors.toMap(o -> o.getCatgId(), o -> o));
                         for(SupportPartsVO supportPartsVO : supportPartsList){
-                            PartsEntity preParts = prePartsMap.get(supportPartsVO.getCatgId());
+                            PrePartsVO preParts = prePartsMap.get(supportPartsVO.getCatgId());
                             if(preParts != null){
                                 BeanUtils.copyProperties(preParts, supportPartsVO);
                                 prePartsMap.remove(supportPartsVO.getCatgId());
                             }
                         }
                         if(prePartsMap.values().size()>0){
-                            for(PartsEntity preParts : prePartsMap.values()){
+                            for(PrePartsVO preParts : prePartsMap.values()){
                                 SupportPartsVO supportPartsVO = new SupportPartsVO();
                                 BeanUtils.copyProperties(preParts, supportPartsVO);
                                 supportPartsList.add(supportPartsVO);
@@ -198,6 +198,60 @@ public class WechatProductController {
                 result.put("details", details);
             }
 
+        }else{
+            return JSONUtil.putMsg(false, "101", "查询的产品为空");
+        }
+
+        return result;
+    }
+
+    /**
+     * 根据产品获取产品信息和预配置列表
+     * @param productId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(path = "/getDetailsByPreCtoId")
+    public JSONObject getDetailsByPreCtoId(String productId, String preCtoId){
+        JSONObject result = new JSONObject();
+        result.put("success", true);
+        ProductVO product = productService.getProductById(productId);
+        if(product != null && product.getFilePath() != null){
+            //查询标准的配件信息
+            List<SupportPartsVO> supportPartsList = productSupportPartsService.findStandardPartsByProductId(productId);
+            if(supportPartsList!= null && supportPartsList.size() > 0){
+                List<PartsEntity> prePartsList = productPreCtoService.findPartsListByPreCtoId(preCtoId);
+                //如果预配置的配件信息不为空，就根据配件分类替换该配件，并且如果预配置的配件信息比标准多，就将多余的配件信息填充展示
+                if(prePartsList != null && prePartsList.size() > 0){
+                    Map<String, PartsEntity> prePartsMap = prePartsList.stream().collect(Collectors.toMap(o -> o.getCatgId(), o -> o));
+                    for(SupportPartsVO supportPartsVO : supportPartsList){
+                        PartsEntity preParts = prePartsMap.get(supportPartsVO.getCatgId());
+                        if(preParts != null){
+                            BeanUtils.copyProperties(preParts, supportPartsVO);
+                            prePartsMap.remove(supportPartsVO.getCatgId());
+                        }
+                    }
+                    if(prePartsMap.values().size()>0){
+                        for(PartsEntity preParts : prePartsMap.values()){
+                            SupportPartsVO supportPartsVO = new SupportPartsVO();
+                            BeanUtils.copyProperties(preParts, supportPartsVO);
+                            supportPartsList.add(supportPartsVO);
+                        }
+                    }
+                }
+            }
+
+            if(supportPartsList!= null && supportPartsList.size() > 0){
+                StringBuilder details = new StringBuilder();
+                String splitStr = "\n";
+                for(SupportPartsVO supportPartsVO : supportPartsList){
+                    details.append(supportPartsVO.getPartsName()).append(splitStr);
+                }
+                details.delete(details.length() - splitStr.length(), details.length());
+                result.put("details", details);
+            }else{
+                return JSONUtil.putMsg(false, "102", "配件列表为空");
+            }
         }else{
             return JSONUtil.putMsg(false, "101", "查询的产品为空");
         }
