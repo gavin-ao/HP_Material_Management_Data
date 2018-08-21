@@ -16,9 +16,9 @@ public class CtoTotalController {
 
     private static final Logger logger = LoggerFactory.getLogger(CtoTotalController.class);
 
-    @RequestMapping("/index")
+    @RequestMapping("/dataStatistics")
     public ModelAndView index(){
-        ModelAndView mv = new ModelAndView("/cto/index");
+        ModelAndView mv = new ModelAndView("/data-statistics/index");
         return mv;
     }
 
