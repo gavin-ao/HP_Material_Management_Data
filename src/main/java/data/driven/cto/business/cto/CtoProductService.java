@@ -1,5 +1,9 @@
 package data.driven.cto.business.cto;
 
+import com.alibaba.fastjson.JSONObject;
+
+import java.math.BigDecimal;
+
 /**
  * cto产品信息Service
  * @author hejinkai
@@ -10,10 +14,12 @@ public interface CtoProductService {
     /**
      * 新增cto信息
      * @param productId
+     * @param preCtoId
      * @param partsIds
      * @param creator
+     * @param prices
      * @return
      */
-    public boolean addCtoProduct(String productId, String partsIds, String creator);
+    public JSONObject addCtoProduct(String productId, String preCtoId, String partsIds, String creator, BigDecimal prices);
 
 }

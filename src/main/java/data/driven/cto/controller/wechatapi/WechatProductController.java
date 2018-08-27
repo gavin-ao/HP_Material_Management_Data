@@ -3,11 +3,14 @@ package data.driven.cto.controller.wechatapi;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import data.driven.cto.business.cto.CtoProductService;
 import data.driven.cto.business.product.ProductCatgService;
 import data.driven.cto.business.product.ProductPreCtoService;
 import data.driven.cto.business.product.ProductService;
 import data.driven.cto.business.product.ProductSupportPartsService;
 import data.driven.cto.common.Constant;
+import data.driven.cto.common.WechatApiSession;
+import data.driven.cto.common.WechatApiSessionBean;
 import data.driven.cto.entity.parts.PartsCatgEntity;
 import data.driven.cto.entity.parts.PartsEntity;
 import data.driven.cto.entity.product.ProductPreCtoEntity;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +52,8 @@ public class WechatProductController {
     private ProductPreCtoService productPreCtoService;
     @Autowired
     private ProductSupportPartsService productSupportPartsService;
+    @Autowired
+    private CtoProductService ctoProductService;
 
     /**
      * 查找所有的产品分类
@@ -298,10 +304,10 @@ public class WechatProductController {
         List<PartsCatgEntity> partsCatgEntityList = productSupportPartsService.findPartsCatgList(productId);
         if(partsCatgEntityList != null && partsCatgEntityList.size() > 0){
             List<SupportPartsVO> supportPartsList = productSupportPartsService.findPartsByProductId(productId);
-            Map<String, String> parPartsMap = null;
+            Map<String, String> prePartsMap = null;
             if(preCtoId != null){
                 List<PartsEntity> prePartsList = productPreCtoService.findPartsListByPreCtoId(preCtoId);
-                parPartsMap = prePartsList.stream().collect(Collectors.toMap(o -> o.getCatgId(), o -> o.getPartsId()));
+                prePartsMap = prePartsList.stream().collect(Collectors.toMap(o -> o.getCatgId(), o -> o.getPartsId()));
             }
 
             if(supportPartsList != null && supportPartsList.size() > 0){
@@ -312,8 +318,8 @@ public class WechatProductController {
                     catg.put("catg", partsCatg);
                     List<SupportPartsVO> partsVOList = supportPartsMap.get(partsCatg.getCatgId());
                     if(partsVOList != null && partsVOList.size() > 0){
-                        String parPartsId = parPartsMap.get(partsCatg.getCatgId());
-                        catg.put("parPartsId", parPartsId);
+                        String prePartsId = prePartsMap.get(partsCatg.getCatgId());
+                        catg.put("prePartsId", prePartsId);
                     }
                     catg.put("parts", partsVOList);
                     resultList.add(catg);
@@ -325,4 +331,11 @@ public class WechatProductController {
         return result;
     }
 
+    @ResponseBody
+    @RequestMapping("/submitCto")
+    public JSONObject submitCto(String sessionID, String productId, String preCtoId, String partsIds, BigDecimal prices){
+        WechatApiSessionBean wechatApiSessionBean = WechatApiSession.getSessionBean(sessionID);
+        String creator = wechatApiSessionBean.getUserInfo().getWechatUserId();
+        return ctoProductService.addCtoProduct(productId, preCtoId, partsIds, creator, prices);
+    }
 }

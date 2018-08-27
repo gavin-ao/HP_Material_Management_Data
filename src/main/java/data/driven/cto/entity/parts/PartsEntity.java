@@ -1,5 +1,6 @@
 package data.driven.cto.entity.parts;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ public class PartsEntity {
     /** 型号 **/
     private String modelNumbers;
     /** 价格 **/
-    private Integer prices;
+    private BigDecimal prices;
     /** 图片id **/
     private String pictureId;
     /** 排序 **/
@@ -69,11 +70,11 @@ public class PartsEntity {
         this.modelNumbers = modelNumbers;
     }
 
-    public Integer getPrices() {
+    public BigDecimal getPrices() {
         return prices;
     }
 
-    public void setPrices(Integer prices) {
+    public void setPrices(BigDecimal prices) {
         this.prices = prices;
     }
 

@@ -1,6 +1,8 @@
 package data.driven.cto.component;
 
 import com.alibaba.fastjson.JSONObject;
+import data.driven.cto.common.WechatApiSession;
+import data.driven.cto.common.WechatApiSessionBean;
 import data.driven.cto.util.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,18 +48,18 @@ public class WechatApiFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String uri = request.getRequestURI();
         String sessionID = request.getParameter("sessionID");
-//        if(canFilter(uri)){
-//            if(sessionID == null){
-//                noAuthority(request, response);
-//                return;
-//            }else{
-//                WechatApiSessionBean wechatApiSessionBean = WechatApiSession.getSessionBean(sessionID);
-//                if(wechatApiSessionBean == null || wechatApiSessionBean.getUserInfo() == null || wechatApiSessionBean.getUserInfo().getWechatUserId()== null){
-//                    noAuthority(request, response);
-//                    return;
-//                }
-//            }
-//        }
+        if(canFilter(uri)){
+            if(sessionID == null){
+                noAuthority(request, response);
+                return;
+            }else{
+                WechatApiSessionBean wechatApiSessionBean = WechatApiSession.getSessionBean(sessionID);
+                if(wechatApiSessionBean == null || wechatApiSessionBean.getUserInfo() == null || wechatApiSessionBean.getUserInfo().getWechatUserId()== null){
+                    noAuthority(request, response);
+                    return;
+                }
+            }
+        }
         filterChain.doFilter(request, response);
         long end = System.currentTimeMillis();
         logger.info("请求地址：" + uri + "-----过滤器耗时：" + (end - start)/1000.0 + "秒" + "--------sessionID="+sessionID);

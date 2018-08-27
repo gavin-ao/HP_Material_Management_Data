@@ -1,5 +1,7 @@
 package data.driven.cto.entity.cto;
 
+import java.math.BigDecimal;
+
 /**
  * cto配件信息表
  * @author hejinkai
@@ -19,11 +21,11 @@ public class CtoPartsEntity {
     /** 型号 **/
     private String modelNumbers;
     /** 价格 **/
-    private Integer prices;
+    private BigDecimal prices;
     /** 图片id **/
     private String pictureId;
-    /** 排序 **/
-    private Integer ord;
+    /** 这个配件是否被修改了， 1 - 是  0 - 不是**/
+    private Integer beChanged;
 
     public String getCtoPartsId() {
         return ctoPartsId;
@@ -73,11 +75,11 @@ public class CtoPartsEntity {
         this.modelNumbers = modelNumbers;
     }
 
-    public Integer getPrices() {
+    public BigDecimal getPrices() {
         return prices;
     }
 
-    public void setPrices(Integer prices) {
+    public void setPrices(BigDecimal prices) {
         this.prices = prices;
     }
 
@@ -89,11 +91,12 @@ public class CtoPartsEntity {
         this.pictureId = pictureId;
     }
 
-    public Integer getOrd() {
-        return ord;
+    public Integer getBeChanged() {
+        return beChanged;
     }
 
-    public void setOrd(Integer ord) {
-        this.ord = ord;
+    public void setBeChanged(Integer beChanged) {
+        this.beChanged = beChanged;
     }
+
 }

@@ -1,5 +1,6 @@
 package data.driven.cto.entity.product;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -22,9 +23,9 @@ public class ProductEntity {
     /** 产品规格 **/
     private String productSpec;
     /** 建议价格 **/
-    private Integer suggestPrices;
+    private BigDecimal suggestPrices;
     /** 零售价格 **/
-    private Integer prices;
+    private BigDecimal prices;
     /** 是否支持cto(1支持，0不支持) **/
     private Integer supportCto;
     /** 备注 **/
@@ -86,19 +87,19 @@ public class ProductEntity {
         this.productSpec = productSpec;
     }
 
-    public Integer getSuggestPrices() {
+    public BigDecimal getSuggestPrices() {
         return suggestPrices;
     }
 
-    public void setSuggestPrices(Integer suggestPrices) {
+    public void setSuggestPrices(BigDecimal suggestPrices) {
         this.suggestPrices = suggestPrices;
     }
 
-    public Integer getPrices() {
+    public BigDecimal getPrices() {
         return prices;
     }
 
-    public void setPrices(Integer prices) {
+    public void setPrices(BigDecimal prices) {
         this.prices = prices;
     }
 

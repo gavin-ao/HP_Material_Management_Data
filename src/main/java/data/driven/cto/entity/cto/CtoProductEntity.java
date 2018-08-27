@@ -1,5 +1,6 @@
 package data.driven.cto.entity.cto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -10,6 +11,8 @@ import java.util.Date;
 public class CtoProductEntity {
     /** 主键 **/
     private String ctoProductId;
+    /** 原始产品id **/
+    private String productId;
     /** 产品分类表主键 **/
     private String catgId;
     /** 分类层级码 **/
@@ -21,15 +24,13 @@ public class CtoProductEntity {
     /** 产品规格 **/
     private String productSpec;
     /** 建议价格 **/
-    private Integer suggestPrices;
+    private BigDecimal suggestPrices;
     /** 零售价格 **/
-    private Integer prices;
+    private BigDecimal prices;
     /** 备注 **/
     private String remark;
     /** 图片id **/
     private String pictureId;
-    /** 排序 **/
-    private Integer ord;
     /** 创建时间 **/
     private Date createAt;
     /** 创建人 **/
@@ -41,6 +42,14 @@ public class CtoProductEntity {
 
     public void setCtoProductId(String ctoProductId) {
         this.ctoProductId = ctoProductId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getCatgId() {
@@ -83,19 +92,19 @@ public class CtoProductEntity {
         this.productSpec = productSpec;
     }
 
-    public Integer getSuggestPrices() {
+    public BigDecimal getSuggestPrices() {
         return suggestPrices;
     }
 
-    public void setSuggestPrices(Integer suggestPrices) {
+    public void setSuggestPrices(BigDecimal suggestPrices) {
         this.suggestPrices = suggestPrices;
     }
 
-    public Integer getPrices() {
+    public BigDecimal getPrices() {
         return prices;
     }
 
-    public void setPrices(Integer prices) {
+    public void setPrices(BigDecimal prices) {
         this.prices = prices;
     }
 
@@ -113,14 +122,6 @@ public class CtoProductEntity {
 
     public void setPictureId(String pictureId) {
         this.pictureId = pictureId;
-    }
-
-    public Integer getOrd() {
-        return ord;
-    }
-
-    public void setOrd(Integer ord) {
-        this.ord = ord;
     }
 
     public Date getCreateAt() {
