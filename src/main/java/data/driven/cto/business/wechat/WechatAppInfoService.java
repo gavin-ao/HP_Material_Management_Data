@@ -2,8 +2,6 @@ package data.driven.cto.business.wechat;
 
 import data.driven.cto.entity.wechat.WechatAppInfoEntity;
 
-import java.util.List;
-
 /**
  * 小程序信息service
  * @author hejinkai
@@ -18,10 +16,4 @@ public interface WechatAppInfoService {
      */
     public WechatAppInfoEntity getAppInfo(String appid);
 
-    /**
-     * 根据用户id查询小程序
-     * @param userInfoId
-     * @return
-     */
-    public List<WechatAppInfoEntity> findAppInfoListByUser(String userInfoId);
 }

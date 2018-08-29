@@ -22,4 +22,5 @@ public interface CtoProductService {
      */
     public JSONObject addCtoProduct(String productId, String preCtoId, String partsIds, String creator, BigDecimal prices);
 
+
 }
