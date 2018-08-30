@@ -53,7 +53,7 @@
 
 .dropdown .dropdown-menu {
     min-width: 50px;
-    top: 56px;
+    /*top: 56px;*/
 }
 
 .btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
@@ -145,7 +145,7 @@
 }
 
 .contain_main_chart {
-    height: 450px;
+    /*height: 450px;*/
 }
 
 .contain_main_chart > div {
@@ -154,14 +154,21 @@
     height: 100%;
     font-size: 16px;
     /*width: 100%;*/
+    margin-top: 20px;
 }
 
-.contain_main_chart > div > div {
-    height:calc( 100% - 50px);
+.contain_main_chart > div > div.charts {
+    height:400px;
     width: 100%;
     border: 1px solid #ccc;
 }
-
+.contain_main_chart > div > span{
+    display: inline-block;
+    margin-bottom: 10px;
+}
+#modelSelection{
+    margin-bottom: 10px;
+}
 .contain_main_chart .contain_main_line {
     width: 100%;
     /*float: left;*/
