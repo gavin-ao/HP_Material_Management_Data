@@ -8,6 +8,7 @@ import data.driven.cto.business.product.ProductCatgService;
 import data.driven.cto.business.product.ProductPreCtoService;
 import data.driven.cto.business.product.ProductService;
 import data.driven.cto.business.product.ProductSupportPartsService;
+import data.driven.cto.business.wechat.WechatAppInfoService;
 import data.driven.cto.common.Constant;
 import data.driven.cto.common.WechatApiSession;
 import data.driven.cto.common.WechatApiSessionBean;
@@ -54,6 +55,8 @@ public class WechatProductController {
     private ProductSupportPartsService productSupportPartsService;
     @Autowired
     private CtoProductService ctoProductService;
+    @Autowired
+    private WechatAppInfoService wechatAppInfoService;
 
     /**
      * 查找所有的产品分类
@@ -61,11 +64,22 @@ public class WechatProductController {
      */
     @ResponseBody
     @RequestMapping(path = "/findProDuctCatgList")
-    public JSONObject findProDuctCatgList(){
+    public JSONObject findProDuctCatgList(String sessionID){
         JSONObject result = new JSONObject();
         List<ProductCatgVO> list = productCatgService.findProDuctCatgList();
         result.put("success", true);
         result.put("data", JSONArray.parseArray(JSONArray.toJSONString(list)));
+        String appInfoId = WechatApiSession.getSessionBean(sessionID).getUserInfo().getAppInfoId();
+        List<String> filePathList = wechatAppInfoService.findSowingMap(appInfoId);
+        String mobilePhone = wechatAppInfoService.getMobilePhone(appInfoId);
+        result.put("mobilePhone", mobilePhone);
+        if(filePathList != null && filePathList.size() > 0){
+            List<String> changePathList = new ArrayList<String>();
+            for (String filePath : filePathList){
+                changePathList.add(Constant.STATIC_FILE_PATH + filePath);
+            }
+            result.put("filePathList", changePathList);
+        }
         return result;
     }
 

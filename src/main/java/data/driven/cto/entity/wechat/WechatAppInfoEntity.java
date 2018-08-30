@@ -16,6 +16,8 @@ public class WechatAppInfoEntity {
     private String appid;
     /** 小程序secret  **/
     private String secret;
+    /** 手机号码  **/
+    private String mobilePhone;
     /** 创建时间 **/
     private Date createAt;
     /** 创建人 **/
@@ -51,6 +53,14 @@ public class WechatAppInfoEntity {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
     }
 
     public Date getCreateAt() {
