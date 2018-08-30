@@ -79,4 +79,16 @@ public class CtoTotalController {
         return ctoTotalService.totalHotPricesView(startDate, endDate);
     }
 
+    /**
+     * 获取产品列表，用于下拉选择
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(path = "/selectProductList")
+    public JSONObject selectProductList(String startDate, String endDate){
+        return ctoTotalService.selectProductList(startDate, endDate);
+    }
+
 }
