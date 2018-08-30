@@ -13,7 +13,7 @@ var wholeAppInfoId, wholeStartTime, wholeEndTime;
 
     dateSelecteTime()
 
-
+    selecyModel()
 
     $($("#contain_main_head > div")[2]).find('input').trigger("click");
 }())
@@ -163,9 +163,16 @@ function currentTime(myDate) {
 
 // 改变时间，数据及图表相继改变
 function changeTimeAfterDataChange() {
+
+    // 最受欢迎产品系列——嵌套环形图
     gainPieData();
+    // 最受欢迎机型——条形图
     gainLineData();
-    // gainBarData();
+
+    // 高频定制需求分析——柱状图
+    // allCustomizedModel();
+
+    // 最受欢迎价格区间——雷达图
     gainRadarData();
 }
 
@@ -187,7 +194,7 @@ function gainPieData() {
 function gainLineData() {
     $.ajax({
         url: "/cto/total/totalHotTopTenView",
-        data: {startDate: wholeStartTime, endDate: wholeEndTime},
+        data: {startDate: wholeStartTime, endDate: wholeEndTime,topNum:10},
         dataType: "json",
         success: function (data) {
             if (data.success) {
@@ -198,10 +205,10 @@ function gainLineData() {
 }
 
 // 获取 柱状图 数据
-function gainBarData() {
+function gainBarData(productId) {
     $.ajax({
         url: "/cto/total/totalChangePartsView",
-        data: {startDate: wholeStartTime, endDate: wholeEndTime},
+        data: {startDate: wholeStartTime, endDate: wholeEndTime,productName:productId},
         dataType: "json",
         success: function (data) {
             if (data.success) {
@@ -224,7 +231,6 @@ function gainRadarData() {
         }
     })
 }
-
 
 
 // 最受欢迎产品系列——嵌套环形图
@@ -254,7 +260,7 @@ function nestingPie(data) {
 
                 label: {
                     position: 'center',
-                    color:"#fff"
+                    color: "#fff"
                 },
                 labelLine: {
                     normal: {
@@ -311,7 +317,7 @@ function nestingPie(data) {
 
 // 最受欢迎机型——条形图
 function lineBarData(data) {
-    var nameData = [],setData=[];
+    var nameData = [], setData = [];
     data = data.sort(compare("totalNum"))
     console.log(data)
     for (var i = 0; i < data.length; i++) {
@@ -344,7 +350,7 @@ function lineBarData(data) {
         },
         yAxis: {
             type: 'category',
-            data:nameData
+            data: nameData
         },
         series: [
             {
@@ -419,13 +425,10 @@ function barData(data) {
 
 // 最受欢迎价格区间——雷达图
 function radarData(data) {
-    console.log(data)
-    var nameData = [], setData=[]
-    for(index in data){
-        console.log(index)
-        nameData.push({name:index})
+    var nameData = [], setData = []
+    for (index in data) {
+        nameData.push({name: index})
         setData.push(data[index])
-        console.log(data[index])
     }
 
     var myChartPie = echarts.init(document.getElementById('main_radar'));
@@ -434,8 +437,7 @@ function radarData(data) {
         // title: {
         //     text: '基础雷达图'
         // },
-        tooltip: {
-        },
+        tooltip: {},
         radar: {
             name: {
                 textStyle: {
@@ -466,11 +468,45 @@ function radarData(data) {
 }
 
 
-function compare(property){
-    return function(a,b){
+function compare(property) {
+    return function (a, b) {
         var value1 = a[property];
         var value2 = b[property];
         return value1 - value2;
     }
+}
+
+// 获取 高频定制需求分析 所有机型
+function allCustomizedModel() {
+    $.ajax({
+        url: "/wechat/appinfo/findAppInfoListByUser",
+        dataType: "json",
+        success: function (data) {
+
+            if (data.success) {
+                var arrData = data.wechatAppInfoEntityList;
+                var html = '';
+                for (var i = 0; i < arrData.length; i++) {
+                    html += '<li data-productid="' + arrData[i].appid + '" data-secret="' + arrData[i].secret + '"><a href="javascript:void(0)">' + arrData[i].appName + '</a></li>';
+                }
+                $("#modelContent").html(html);
+                $($("#modelContent").find("li")[0]).trigger("click");
+            }
+        }
+    })
+}
+
+// 选择机型
+function selecyModel() {
+    $("#modelContent").off('click', "li");
+    $("#modelContent").on('click', 'li', function () {
+        var that = this;
+        var content = $.trim($(this).text());
+        var target = $(this).parents(".dropdown").find("button .selectIndex");
+        $(target).html(content)
+        var productId = $(that).attr("data-productid");
+
+        // gainBarData(productId);
+    });
 }
 
