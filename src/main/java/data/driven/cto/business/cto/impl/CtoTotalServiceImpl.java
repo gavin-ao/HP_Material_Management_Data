@@ -148,10 +148,32 @@ public class CtoTotalServiceImpl implements CtoTotalService {
         }, Collectors.counting()));
         resultMap.remove(exitsKey);
         JSONObject result = new JSONObject();
+        for (CtoTotalPricesPropEntity totalProp : totalPropList){
+            if(!resultMap.containsKey(totalProp.getShowName())){
+                resultMap.put(totalProp.getShowName(), 0L);
+            }
+        }
         result.put("data", resultMap);
         result.put("success", true);
         return result;
     }
 
+    @Override
+    public JSONObject selectProductList(String startDate, String endDate) {
+        Date start = DateFormatUtil.getTime(startDate);
+        Date end = DateFormatUtil.toEndDate(endDate);
+        if(start == null || end == null){
+            return JSONUtil.putMsg(false, "101", "时间获取失败，请检查时间格式");
+        }
+        String sql = "select distinct product_name from cto_product_info where create_at between ? and ?";
+        List<String> productNameList = jdbcBaseDao.getColumns(String.class, sql, start, end);
+        if(productNameList == null || productNameList.size() < 1){
+            return JSONUtil.putMsg(false, "102", "查询的数据为空");
+        }
+        JSONObject result = new JSONObject();
+        result.put("data", productNameList);
+        result.put("success", true);
+        return result;
+    }
 
 }

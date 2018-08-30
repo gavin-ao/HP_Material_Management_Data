@@ -43,4 +43,12 @@ public interface CtoTotalService {
      */
     public JSONObject totalHotPricesView(String startDate, String endDate);
 
+    /**
+     * 获取产品列表，用于下拉选择
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public JSONObject selectProductList(String startDate, String endDate);
+
 }
