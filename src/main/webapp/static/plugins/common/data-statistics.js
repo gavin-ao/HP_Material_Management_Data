@@ -170,7 +170,7 @@ function changeTimeAfterDataChange() {
     gainLineData();
 
     // 高频定制需求分析——柱状图
-    // allCustomizedModel();
+    allCustomizedModel();
 
     // 最受欢迎价格区间——雷达图
     gainRadarData();
@@ -194,7 +194,7 @@ function gainPieData() {
 function gainLineData() {
     $.ajax({
         url: "/cto/total/totalHotTopTenView",
-        data: {startDate: wholeStartTime, endDate: wholeEndTime,topNum:10},
+        data: {startDate: wholeStartTime, endDate: wholeEndTime, topNum: 10},
         dataType: "json",
         success: function (data) {
             if (data.success) {
@@ -208,11 +208,11 @@ function gainLineData() {
 function gainBarData(productId) {
     $.ajax({
         url: "/cto/total/totalChangePartsView",
-        data: {startDate: wholeStartTime, endDate: wholeEndTime,productName:productId},
+        data: {startDate: wholeStartTime, endDate: wholeEndTime, productName: productId},
         dataType: "json",
         success: function (data) {
             if (data.success) {
-                barData(data.data)
+                barData(data.data,productId)
             }
         }
     })
@@ -333,10 +333,10 @@ function lineBarData(data) {
         //     subtext: '数据来自网络'
         // },
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
+            trigger: 'item',
+            // axisPointer: {
+            //     type: 'shadow'
+            // }
         },
         grid: {
             left: '3%',
@@ -354,7 +354,7 @@ function lineBarData(data) {
         },
         series: [
             {
-                name: '2012年',
+                name: '最受欢迎机型',
                 type: 'bar',
                 barMaxWidth: "50px",
                 data: setData
@@ -370,18 +370,23 @@ function lineBarData(data) {
 }
 
 // 高频定制需求分析——柱状图
-function barData(data) {
+function barData(data,productId) {
     console.log(data)
+    var xData = [],setData=[]
+    for(var i=0;i<data.length;i++){
+        xData.push(data[i].showText)
+        setData.push(data[i].totalNum)
+    }
     var myChartPie = echarts.init(document.getElementById('main_bar'));
 
     var option = {
         color: ['#3398DB'],
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            },
-            // position:function(p){ //其中p为当前鼠标的位置
+            trigger: 'item',
+            // axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+            //     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            // },
+            // position:function(p){ //其中p为当前鼠标的位置git
             //     return [p[0] + 10, p[1] - 10];
             // },
             // extraCssText:'width:180px;height:55px;'
@@ -395,7 +400,7 @@ function barData(data) {
         xAxis: [
             {
                 type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                data: xData,
                 axisTick: {
                     alignWithLabel: true
                 }
@@ -408,10 +413,10 @@ function barData(data) {
         ],
         series: [
             {
-                name: '直接访问',
+                name: productId,
                 type: 'bar',
                 barWidth: '50px',
-                data: [10, 52, 200, 334, 390, 330, 220]
+                data: setData
             }
         ]
     };
@@ -430,13 +435,14 @@ function radarData(data) {
         nameData.push({name: index})
         setData.push(data[index])
     }
-
+    var max = Math.max.apply(null,setData);
+    for(var i=0;i<nameData.length;i++){
+        nameData[i].max = max/8 + max;
+    }
+    console.log(max)
     var myChartPie = echarts.init(document.getElementById('main_radar'));
 
     var option = {
-        // title: {
-        //     text: '基础雷达图'
-        // },
         tooltip: {},
         radar: {
             name: {
@@ -450,12 +456,12 @@ function radarData(data) {
             indicator: nameData
         },
         series: [{
-            name: '预算 vs 开销（Budget vs spending）',
+            name: '最受欢迎价格区间',
             type: 'radar',
             data: [
                 {
                     value: setData,
-                    name: '实际开销（Actual Spending）'
+                    name: '最受欢迎价格区间'
                 }
             ]
         }]
@@ -479,15 +485,16 @@ function compare(property) {
 // 获取 高频定制需求分析 所有机型
 function allCustomizedModel() {
     $.ajax({
-        url: "/wechat/appinfo/findAppInfoListByUser",
+        url: "/cto/total/selectProductList",
+        data: {startDate: wholeStartTime, endDate: wholeEndTime},
         dataType: "json",
         success: function (data) {
-
+            console.log(data)
             if (data.success) {
-                var arrData = data.wechatAppInfoEntityList;
+                var arrData = data.data;
                 var html = '';
                 for (var i = 0; i < arrData.length; i++) {
-                    html += '<li data-productid="' + arrData[i].appid + '" data-secret="' + arrData[i].secret + '"><a href="javascript:void(0)">' + arrData[i].appName + '</a></li>';
+                    html += '<li data-productid="' + arrData[i] + '"><a href="javascript:void(0)">' + arrData[i] + '</a></li>';
                 }
                 $("#modelContent").html(html);
                 $($("#modelContent").find("li")[0]).trigger("click");
@@ -505,8 +512,7 @@ function selecyModel() {
         var target = $(this).parents(".dropdown").find("button .selectIndex");
         $(target).html(content)
         var productId = $(that).attr("data-productid");
-
-        // gainBarData(productId);
+        gainBarData(productId);
     });
 }
 
