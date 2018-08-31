@@ -26,10 +26,10 @@
 <div style="width: 220px;float: left;background-color: ">
     <div class="header-left">
         <div class="logo">
-            <img src="/static/service/images/login/login.png" id="logoImgUnique" onclick="window.location.href='/'">
+            <img src="/static/service/images/login/timg.jpg" id="logoImgUnique" onclick="window.location.href='/'">
         </div>
         <div class="logo_title" >
-            <span>获客e管理后台</span>
+            <span>惠普管理后台</span>
         </div>
     </div>
     <nav class="navbar-default navbar-side" id="navbarH" role="navigation" style="background-color: #4E546C; width: 100%;height:calc(100% - 80px) ;float: left;font-size: 16px;">
