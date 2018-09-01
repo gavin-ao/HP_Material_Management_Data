@@ -3,7 +3,7 @@ package data.driven.cto.controller.wechatapi;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import data.driven.cto.business.cto.CtoProductService;
+import data.driven.cto.business.ctoproduct.CtoProductService;
 import data.driven.cto.business.product.ProductCatgService;
 import data.driven.cto.business.product.ProductPreCtoService;
 import data.driven.cto.business.product.ProductService;
@@ -166,6 +166,8 @@ public class WechatProductController {
                 if(allPrePartsList != null && allPrePartsList.size() > 0){
                     groupPartsByCtoMap = allPrePartsList.stream().collect(Collectors.groupingBy(o -> o.getPreCtoId()));
                 }
+                BigDecimal prices = product.getPrices();
+                //TODO 价格返回
                 if(supportPartsList!= null && supportPartsList.size() > 0){
                     //获取第一个预配置id，根据第一个预配置出产品的介绍
                     String preCtoId = productPreCtoList.get(0).getPreCtoId();
@@ -268,6 +270,7 @@ public class WechatProductController {
                     details.append(supportPartsVO.getPartsName()).append(splitStr);
                 }
                 details.delete(details.length() - splitStr.length(), details.length());
+                //TODO 价格返回
                 result.put("details", details);
             }else{
                 return JSONUtil.putMsg(false, "102", "配件列表为空");

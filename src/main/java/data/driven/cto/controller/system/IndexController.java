@@ -21,7 +21,7 @@ public class IndexController {
 
     @RequestMapping(path = "/index", method = RequestMethod.GET)
     public void index(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        response.sendRedirect("/wechat/total/dataStatistics");
+        response.sendRedirect("/ctoproduct/total/dataStatistics");
 //        ModelAndView modelAndView = new ModelAndView("/index");
 //        modelAndView.addObject("success", true);
 //        modelAndView.addObject("msg", "访问成功");

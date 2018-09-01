@@ -1,9 +1,9 @@
-package data.driven.cto.business.cto.impl;
+package data.driven.cto.business.ctoproduct.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import data.driven.cto.business.cto.CtoTotalPricesPropService;
-import data.driven.cto.business.cto.CtoTotalService;
+import data.driven.cto.business.ctoproduct.CtoTotalPricesPropService;
+import data.driven.cto.business.ctoproduct.CtoTotalService;
 import data.driven.cto.dao.JDBCBaseDao;
 import data.driven.cto.entity.cto.CtoTotalPricesPropEntity;
 import data.driven.cto.util.DateFormatUtil;

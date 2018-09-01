@@ -19,7 +19,7 @@ function login(){
                 var success = data.success;
                 if(success && success == true){
                     // alert(data.msg);
-                    window.location.href = "/cto/total/dataStatistics";
+                    window.location.href = "/ctoproduct/total/dataStatistics";
                 }else{
                     alert("登录失败");
                 }

@@ -1,7 +1,7 @@
-package data.driven.cto.business.cto.impl;
+package data.driven.cto.business.ctoproduct.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import data.driven.cto.business.cto.CtoProductService;
+import data.driven.cto.business.ctoproduct.CtoProductService;
 import data.driven.cto.business.product.ProductPreCtoService;
 import data.driven.cto.business.product.ProductService;
 import data.driven.cto.dao.JDBCBaseDao;

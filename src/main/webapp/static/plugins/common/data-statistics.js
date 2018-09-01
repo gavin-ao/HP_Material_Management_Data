@@ -179,7 +179,7 @@ function changeTimeAfterDataChange() {
 // 获取 嵌套环形图 数据
 function gainPieData() {
     $.ajax({
-        url: "/cto/total/totalCtoCatgView",
+        url: "/ctoproduct/total/totalCtoCatgView",
         data: {startDate: wholeStartTime, endDate: wholeEndTime},
         dataType: "json",
         success: function (data) {
@@ -193,7 +193,7 @@ function gainPieData() {
 // 获取 条形图 数据
 function gainLineData() {
     $.ajax({
-        url: "/cto/total/totalHotTopTenView",
+        url: "/ctoproduct/total/totalHotTopTenView",
         data: {startDate: wholeStartTime, endDate: wholeEndTime, topNum: 10},
         dataType: "json",
         success: function (data) {
@@ -207,7 +207,7 @@ function gainLineData() {
 // 获取 柱状图 数据
 function gainBarData(productId) {
     $.ajax({
-        url: "/cto/total/totalChangePartsView",
+        url: "/ctoproduct/total/totalChangePartsView",
         data: {startDate: wholeStartTime, endDate: wholeEndTime, productName: productId},
         dataType: "json",
         success: function (data) {
@@ -221,7 +221,7 @@ function gainBarData(productId) {
 // 获取 雷达图 数据
 function gainRadarData() {
     $.ajax({
-        url: "/cto/total/totalHotPricesView",
+        url: "/ctoproduct/total/totalHotPricesView",
         data: {startDate: wholeStartTime, endDate: wholeEndTime},
         dataType: "json",
         success: function (data) {
@@ -485,7 +485,7 @@ function compare(property) {
 // 获取 高频定制需求分析 所有机型
 function allCustomizedModel() {
     $.ajax({
-        url: "/cto/total/selectProductList",
+        url: "/ctoproduct/total/selectProductList",
         data: {startDate: wholeStartTime, endDate: wholeEndTime},
         dataType: "json",
         success: function (data) {

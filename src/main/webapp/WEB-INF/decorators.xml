@@ -5,6 +5,6 @@
     </excludes>
 
     <decorator name="normalDecorator" page="normalDecorator.vm">
-        <pattern>/cto/total/dataStatistics</pattern>
+        <pattern>/ctoproduct/total/dataStatistics</pattern>
     </decorator>
 </decorators>

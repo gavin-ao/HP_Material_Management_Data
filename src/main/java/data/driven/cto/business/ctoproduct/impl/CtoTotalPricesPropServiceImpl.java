@@ -1,6 +1,6 @@
-package data.driven.cto.business.cto.impl;
+package data.driven.cto.business.ctoproduct.impl;
 
-import data.driven.cto.business.cto.CtoTotalPricesPropService;
+import data.driven.cto.business.ctoproduct.CtoTotalPricesPropService;
 import data.driven.cto.dao.JDBCBaseDao;
 import data.driven.cto.entity.cto.CtoTotalPricesPropEntity;
 import org.springframework.beans.factory.annotation.Autowired;

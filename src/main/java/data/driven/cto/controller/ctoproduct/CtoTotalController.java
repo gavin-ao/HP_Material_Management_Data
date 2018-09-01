@@ -1,7 +1,7 @@
-package data.driven.cto.controller.cto;
+package data.driven.cto.controller.ctoproduct;
 
 import com.alibaba.fastjson.JSONObject;
-import data.driven.cto.business.cto.CtoTotalService;
+import data.driven.cto.business.ctoproduct.CtoTotalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @date 2018/8/21
  */
 @Controller
-@RequestMapping(path = "/cto/total")
+@RequestMapping(path = "/ctoproduct/total")
 public class CtoTotalController {
 
     private static final Logger logger = LoggerFactory.getLogger(CtoTotalController.class);

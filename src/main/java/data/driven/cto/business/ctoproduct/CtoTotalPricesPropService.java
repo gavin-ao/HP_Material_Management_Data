@@ -1,4 +1,4 @@
-package data.driven.cto.business.cto;
+package data.driven.cto.business.ctoproduct;
 
 import data.driven.cto.entity.cto.CtoTotalPricesPropEntity;
 
