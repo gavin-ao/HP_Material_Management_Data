@@ -59,8 +59,7 @@
                                                                                              placeholder="结束时间"
                                                                                              id="endTime">
         </div>
-        <div class="contain_main_content"   style="overflow-y: scroll;height: calc(100% - 4
-        0px)">
+        <div class="contain_main_content"   style="overflow-y: scroll;height: calc(100% - 40px)">
             <div class="contain_main_title">
                 <span class="title">核心数据</span><span><span  class="time1">2018-07-02</span>至<span class="time2">2017-07-02</span>数据</span>
             </div>
