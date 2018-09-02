@@ -42,7 +42,7 @@ public class CtoTotalController {
     }
 
     /**
-     * 高频定制需求分析 - 根据产品名称，统计变更的配件信息 - 柱状图
+     * 统计最受欢迎机型 top10 - 条形图
      * @param startDate
      * @param endDate
      * @param topNum
