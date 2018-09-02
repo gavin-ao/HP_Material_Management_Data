@@ -22,7 +22,7 @@
 		<property name="maxStatements">0</property>
 		<property name="maxStatementsPerConnection">10</property>
         <!-- 如果在设置的时间范围连接没有被使用，则丢弃该连接，mysql的wait_timeout默认是28800，这里必须比mysql的wait_timeout小 -->
-        <property name="maxIdleTime">8000</property>
+        <property name="maxIdleTime">1800</property>
 	</named-config>
 
 </c3p0-config>

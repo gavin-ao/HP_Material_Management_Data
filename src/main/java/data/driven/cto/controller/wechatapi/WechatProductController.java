@@ -16,6 +16,7 @@ import data.driven.cto.entity.parts.PartsCatgEntity;
 import data.driven.cto.entity.parts.PartsEntity;
 import data.driven.cto.entity.product.ProductPreCtoEntity;
 import data.driven.cto.util.JSONUtil;
+import data.driven.cto.util.NumberUtil;
 import data.driven.cto.vo.product.PrePartsVO;
 import data.driven.cto.vo.product.ProductCatgVO;
 import data.driven.cto.vo.product.ProductVO;
@@ -167,7 +168,6 @@ public class WechatProductController {
                     groupPartsByCtoMap = allPrePartsList.stream().collect(Collectors.groupingBy(o -> o.getPreCtoId()));
                 }
                 BigDecimal prices = product.getPrices();
-                //TODO 价格返回
                 if(supportPartsList!= null && supportPartsList.size() > 0){
                     //获取第一个预配置id，根据第一个预配置出产品的介绍
                     String preCtoId = productPreCtoList.get(0).getPreCtoId();
@@ -181,12 +181,15 @@ public class WechatProductController {
                         for(SupportPartsVO supportPartsVO : supportPartsList){
                             PrePartsVO preParts = prePartsMap.get(supportPartsVO.getCatgId());
                             if(preParts != null){
+                                prices = NumberUtil.addDefaultZero(prices, NumberUtil.subtractDefaultZero(preParts.getPrices(), supportPartsVO.getPrices()));
                                 BeanUtils.copyProperties(preParts, supportPartsVO);
                                 prePartsMap.remove(supportPartsVO.getCatgId());
+
                             }
                         }
                         if(prePartsMap.values().size()>0){
                             for(PrePartsVO preParts : prePartsMap.values()){
+                                prices = NumberUtil.addDefaultZero(prices, preParts.getPrices());
                                 SupportPartsVO supportPartsVO = new SupportPartsVO();
                                 BeanUtils.copyProperties(preParts, supportPartsVO);
                                 supportPartsList.add(supportPartsVO);
@@ -208,6 +211,7 @@ public class WechatProductController {
                     }
                 }
                 result.put("preCtoList", preCtoList);
+                result.put("prices", prices);
             }
 
             if(supportPartsList!= null && supportPartsList.size() > 0){
@@ -239,6 +243,7 @@ public class WechatProductController {
         result.put("success", true);
         ProductVO product = productService.getProductById(productId);
         if(product != null && product.getFilePath() != null){
+            BigDecimal prices = product.getPrices();
             //查询标准的配件信息
             List<SupportPartsVO> supportPartsList = productSupportPartsService.findStandardPartsByProductId(productId);
             if(supportPartsList!= null && supportPartsList.size() > 0){
@@ -249,12 +254,14 @@ public class WechatProductController {
                     for(SupportPartsVO supportPartsVO : supportPartsList){
                         PartsEntity preParts = prePartsMap.get(supportPartsVO.getCatgId());
                         if(preParts != null){
+                            prices = NumberUtil.addDefaultZero(prices, NumberUtil.subtractDefaultZero(preParts.getPrices(), supportPartsVO.getPrices()));
                             BeanUtils.copyProperties(preParts, supportPartsVO);
                             prePartsMap.remove(supportPartsVO.getCatgId());
                         }
                     }
                     if(prePartsMap.values().size()>0){
                         for(PartsEntity preParts : prePartsMap.values()){
+                            prices = NumberUtil.addDefaultZero(prices, preParts.getPrices());
                             SupportPartsVO supportPartsVO = new SupportPartsVO();
                             BeanUtils.copyProperties(preParts, supportPartsVO);
                             supportPartsList.add(supportPartsVO);
@@ -275,6 +282,7 @@ public class WechatProductController {
             }else{
                 return JSONUtil.putMsg(false, "102", "配件列表为空");
             }
+            result.put("prices", prices);
         }else{
             return JSONUtil.putMsg(false, "101", "查询的产品为空");
         }
