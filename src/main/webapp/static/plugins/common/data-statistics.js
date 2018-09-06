@@ -259,7 +259,7 @@ function nestingPie(data) {
                 radius: [0, '30%'],
 
                 label: {
-                    position: 'center',
+                    position: 'inner',
                     color: "#fff"
                 },
                 labelLine: {
