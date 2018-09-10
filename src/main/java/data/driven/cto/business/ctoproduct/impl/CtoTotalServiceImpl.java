@@ -148,12 +148,18 @@ public class CtoTotalServiceImpl implements CtoTotalService {
         }, Collectors.counting()));
         resultMap.remove(exitsKey);
         JSONObject result = new JSONObject();
+        List<JSONObject> resultData = new ArrayList<JSONObject>();
         for (CtoTotalPricesPropEntity totalProp : totalPropList){
-            if(!resultMap.containsKey(totalProp.getShowName())){
-                resultMap.put(totalProp.getShowName(), 0L);
+            JSONObject temp = new JSONObject();
+            temp.put("name", totalProp.getShowName());
+            if(resultMap.containsKey(totalProp.getShowName())){
+                temp.put("value", resultMap.get(totalProp.getShowName()));
+            }else{
+                temp.put("value", 0L);
             }
+            resultData.add(temp);
         }
-        result.put("data", resultMap);
+        result.put("data", resultData);
         result.put("success", true);
         return result;
     }
