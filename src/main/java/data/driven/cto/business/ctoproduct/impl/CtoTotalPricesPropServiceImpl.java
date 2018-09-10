@@ -20,7 +20,7 @@ public class CtoTotalPricesPropServiceImpl implements CtoTotalPricesPropService 
 
     @Override
     public List<CtoTotalPricesPropEntity> findCtoTotalPricesPropList() {
-        String sql = "select show_name,max_num,min_num from cto_total_prices_prop";
+        String sql = "select show_name,max_num,min_num from cto_total_prices_prop order by min_num";
         List<CtoTotalPricesPropEntity> list = jdbcBaseDao.queryList(CtoTotalPricesPropEntity.class, sql);
         return list;
     }
