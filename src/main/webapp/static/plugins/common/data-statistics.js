@@ -431,9 +431,9 @@ function barData(data,productId) {
 // 最受欢迎价格区间——雷达图
 function radarData(data) {
     var nameData = [], setData = []
-    for (index in data) {
-        nameData.push({name: index})
-        setData.push(data[index])
+    for(var i= 0;i<data.length;i++){
+        nameData.push({name: data[i].name})
+        setData.push(data[i].value)
     }
     var max = Math.max.apply(null,setData);
     for(var i=0;i<nameData.length;i++){
