@@ -71,9 +71,9 @@ public class WechatProductController {
         result.put("success", true);
         result.put("data", JSONArray.parseArray(JSONArray.toJSONString(list)));
         String appInfoId = WechatApiSession.getSessionBean(sessionID).getUserInfo().getAppInfoId();
-        List<String> filePathList = wechatAppInfoService.findSowingMap(appInfoId);
         String mobilePhone = wechatAppInfoService.getMobilePhone(appInfoId);
         result.put("mobilePhone", mobilePhone);
+        List<String> filePathList = wechatAppInfoService.findSowingMap(appInfoId);
         if(filePathList != null && filePathList.size() > 0){
             List<String> changePathList = new ArrayList<String>();
             for (String filePath : filePathList){
