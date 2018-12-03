@@ -2,6 +2,7 @@ package data.driven.cto.util;
 
 import com.alibaba.fastjson.JSONObject;
 import data.driven.cto.common.Constant;
+import data.driven.cto.common.RedisFactory;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -114,7 +115,7 @@ public class WXUtil {
             return success;
         }
     }
-
+    public static final String access_token = "access_token_";
     /**
      * 根据appid,secret获取access_token
      * @param appid
@@ -122,12 +123,23 @@ public class WXUtil {
      * @return
      */
     public static JSONObject getAccessToken(String appid, String secret){
+        String key = access_token + appid;
+        String acessToken = RedisFactory.get(key);
+        if(acessToken != null && acessToken.trim().length() > 1){
+            JSONObject result = new JSONObject();
+            result.put("access_token", acessToken);
+            return result;
+        }
         String url = token_url+"?grant_type="+GRANT_TYPE_CLIENT_CREDENTIAL+"&appid="+appid+"&secret="+secret;
         String resultStr = HttpUtil.doGetSSL(url);
         if(resultStr == null){
             return new JSONObject();
         }
-        return parseObject(resultStr);
+        JSONObject result = parseObject(resultStr);
+        if(result.getString("access_token") != null && result.getString("access_token").trim().length() > 1){
+            RedisFactory.setString(key, result.getString("access_token"), 2500 * 1000);
+        }
+        return result;
     }
 
     /**
